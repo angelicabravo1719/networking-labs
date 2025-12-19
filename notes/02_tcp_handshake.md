@@ -1,44 +1,45 @@
-----TCP 3-Way Handshake (HTTPS)
+# 02 — TCP Handshake (How Connections Start)
 
+## Goal (plain English)
+Show the **TCP 3-way handshake**:
+- This is how a reliable connection starts before data is exchanged (common for HTTPS over TCP/443).
 
+## What I did
+1) Opened Wireshark and started a capture on my active interface (Wi-Fi).
+2) Triggered a new connection by opening a website or app connection.
+3) Filtered to the handshake traffic and identified:
+   - SYN → SYN/ACK → ACK
+4) Saved the capture + screenshot for evidence.
 
-----Goal
+## Wireshark filters used
+- Show TCP packets:
+  - `tcp`
+- Focus on a specific port (common for HTTPS):
+  - `tcp.port == 443`
+- Find handshake SYN packets:
+  - `tcp.flags.syn == 1 and tcp.flags.ack == 0`
+- Or just SYN packets (includes SYN/ACK too):
+  - `tcp.flags.syn == 1`
 
-Capture and explain the TCP 3-way handshake and identify the destination domain (SNI) for an HTTPS connection.
+## What I observed / how to explain it
+- **SYN**: my computer says “Can we start a connection?”
+- **SYN/ACK**: the server replies “Yes — I’m ready.”
+- **ACK**: my computer confirms “Great — connection is established.”
 
+After that, the connection can carry application data (like TLS/HTTPS).
 
+## How to confirm it’s the handshake
+1) Look in the packet list “Info” column for:
+   - `[SYN]`
+   - `[SYN, ACK]`
+   - `[ACK]`
+2) Confirm the same 4-tuple:
+   - Source IP/port ↔ Destination IP/port
 
-----Evidence Files
+## Evidence I saved (portfolio-friendly)
+- Capture file: `captures/tcp_handshake.pcapng`
+- Screenshot: `screenshots/tcp_handshake.png`
+- These notes: `notes/02_tcp_handshake.md`
 
-\- Capture: `captures/tcp\_handshake.pcapng`
-
-\- Screenshot: `screenshots/tcp\_handshake.png`
-
-
-
-----Filter Used
-
-\- `tcp.port == 54368` (filtered to one client ephemeral port for a single connection)
-
-
-
-----What I observed
-
-\- SYN: client (10.108.165.224:54368) → server (52.182.143.214:443)
-
-\- SYN-ACK: server → client
-
-\- ACK: client → server (connection established)
-
-\- TLSv1.3 Client Hello followed the handshake (HTTPS encryption negotiation)
-
-\- SNI observed in Client Hello: `teams.events.data.microsoft.com`
-
-
-
-----Why it matters
-
-The TCP handshake proves a connection was established, and TLS SNI can reveal the destination domain even when the HTTP content is encrypted.
-
-
-
+## Why this matters (interview-ready)
+- “TCP is the foundation for many protocols. I captured a 3-way handshake in Wireshark to show
