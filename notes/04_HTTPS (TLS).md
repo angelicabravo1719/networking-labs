@@ -46,10 +46,10 @@ That’s why typing `https` in the filter bar won’t work.
 4) You’ll see the hostname (example from my capture: `ecs.office.com`)
 
 ## What SNI tells me (and what it doesn’t)
-✅ SNI tells me:
+SNI tells me:
 - “My machine attempted to connect to **this hostname** over TLS.”
 
-❌ SNI does NOT prove:
+SNI does NOT prove:
 - That I manually typed that website into a browser.
 - The exact page/URL visited (paths are encrypted in HTTPS).
 - The content of what was sent/received (it’s encrypted).
@@ -64,12 +64,12 @@ So `ecs.office.com` could be:
 - I could often identify the **hostname** using SNI (example: `ecs.office.com`).
 - I could **not** read the HTTP GET path/content like I could with plain HTTP, because it’s encrypted.
 
-## Evidence I saved (portfolio-friendly)
+## Evidence I saved
 - Capture file: `captures/https_tls_handshake.pcapng` (or `captures/tls_handshake.pcapng`)
 - Screenshot: `screenshots/tls_client_hello_sni.png` (showing Client Hello + SNI)
 - These notes: `notes/04_https_tls.md`
 
-## Why this matters (interview-ready)
+## Why this matters
 - “I compared HTTP vs HTTPS in Wireshark. With HTTP I could read requests in plain text. With HTTPS I could only see the TLS handshake and metadata like SNI. That demonstrates how TLS protects confidentiality in transit, while still leaving some observable connection details.”
 
 ## Privacy note
